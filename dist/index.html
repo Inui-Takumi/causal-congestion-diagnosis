@@ -11,34 +11,48 @@
 </head>
 <body>
   <section class="auth" id="auth-view">
-    <header class="auth-head">
-      <a class="wordmark" href="#"><span>URBAN-CM</span><b>城市快速路拥堵致因诊断系统</b></a>
-      <nav><a href="#about">系统介绍</a><a href="#guide">使用指南</a><a href="#support">技术支持</a></nav>
+    <div class="institution-bar">
+      <span>城市交通运行研究中心</span>
+      <nav aria-label="辅助导航"><a href="#about">系统简介</a><a href="#guide">使用说明</a><a href="#support">技术支持</a></nav>
+    </div>
+    <header class="auth-masthead">
+      <a class="wordmark" href="#">
+        <span class="seal">路</span>
+        <span><small>URBAN MOBILITY RESEARCH CENTRE</small><strong>城市快速路常发性拥堵致因诊断系统</strong></span>
+      </a>
+      <p>运行版 · 2026</p>
     </header>
     <main class="auth-layout">
-      <section class="auth-brief">
-        <span class="brief-label">交通运行诊断平台</span>
-        <h1>拥堵病历与<br>致因溯源</h1>
-        <p>融合交通流、天气、事件和道路基础数据，为城市快速路常发性拥堵提供可追溯的诊断记录与治理建议。</p>
-        <div class="brief-stats"><span><b>24</b>接入路段</span><span><b>18</b>今日诊断</span><span><b>91.4%</b>诊断稳定度</span></div>
+      <section class="auth-intro">
+        <p class="section-index">交通运行诊断与治理决策支持</p>
+        <h1>把拥堵诊断整理成<br>一份可以追溯的病历。</h1>
+        <p class="lead">汇集交通流、天气、事件与道路条件，记录拥堵发生过程，分析主要致因，并为管理部门提供可复核的治理建议。</p>
+        <div class="service-grid">
+          <article><b>01</b><strong>拥堵病历</strong><span>记录异常、诊断与恢复过程</span></article>
+          <article><b>02</b><strong>因果溯源</strong><span>区分相关因素与直接致因</span></article>
+          <article><b>03</b><strong>治理复盘</strong><span>比较实施前后的实际效果</span></article>
+        </div>
       </section>
       <section class="auth-card" aria-label="账号入口">
-        <div class="auth-tabs" role="tablist"><button class="active" id="login-tab" type="button">账号登录</button><button id="register-tab" type="button">注册申请</button></div>
+        <div class="auth-tabs" role="tablist">
+          <button class="active" id="login-tab" type="button">登录</button>
+          <button id="register-tab" type="button">注册申请</button>
+        </div>
         <form id="login-form" class="auth-form">
-          <header><h2>登录系统</h2><p>请使用交通运行中心分配的账号</p></header>
+          <header><p>用户入口</p><h2>登录系统</h2><span>请使用交通运行中心分配的账号。</span></header>
           <label>账号或工号<input id="login-user" value="analyst" autocomplete="username"></label>
           <label>密码<input id="login-pass" type="password" value="123456" autocomplete="current-password"></label>
           <div class="form-row"><label class="checkbox"><input type="checkbox" checked> 保持登录</label><button class="text-button" type="button">账号帮助</button></div>
-          <button class="submit-button" type="submit">进入系统</button>
-          <p class="demo-note">演示账号 analyst · 密码 123456</p>
+          <button class="submit-button" type="submit">进入诊断系统</button>
+          <p class="demo-note">演示账号：analyst　密码：123456</p>
         </form>
         <form id="register-form" class="auth-form" hidden>
-          <header><h2>申请账号</h2><p>申请信息将由系统管理员审核</p></header>
+          <header><p>账号申请</p><h2>填写申请信息</h2><span>申请将由系统管理员统一审核。</span></header>
           <div class="form-grid"><label>姓名<input required placeholder="请输入姓名"></label><label>所属部门<input required placeholder="例如：交通运行处"></label></div>
           <label>工作邮箱<input required type="email" placeholder="name@organization.cn"></label>
           <label>设置密码<input required type="password" minlength="6" placeholder="至少 6 位字符"></label>
           <label class="checkbox agreement"><input type="checkbox" required checked> 我已阅读数据使用和保密规范</label>
-          <button class="submit-button" type="submit">提交申请</button>
+          <button class="submit-button" type="submit">提交注册申请</button>
         </form>
       </section>
     </main>
