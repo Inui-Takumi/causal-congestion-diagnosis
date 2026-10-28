@@ -3,28 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#1b1d22">
+  <meta name="theme-color" content="#092f57">
   <meta name="description" content="基于因果机器学习推断的城市快速路常发性拥堵致因诊断系统">
-  <title>路因 · 城市快速路拥堵致因诊断系统</title>
+  <title>城市快速路常发性拥堵致因诊断系统</title>
   <link rel="stylesheet" href="styles.css">
   <script src="script.js" defer></script>
 </head>
 <body>
   <section class="auth" id="auth-view">
-    <div class="auth-orbit orbit-a"></div><div class="auth-orbit orbit-b"></div>
     <header class="auth-top">
-      <a class="wordmark" href="#"><span class="mark">路因</span><b>CAUSAL TRAFFIC LAB</b></a>
-      <p><i></i> 多源数据引擎运行正常</p>
+      <a class="wordmark" href="#"><span class="mark">交通</span><b>城市交通运行分析平台</b></a>
+      <p><i></i> 系统运行正常</p>
     </header>
     <main class="auth-stage">
       <section class="auth-intro">
-        <span class="chapter">01 / 城市快速路诊断</span>
-        <h1>看见拥堵，<br><em>更看见为什么。</em></h1>
-        <p>融合交通流、气象、事件与道路环境数据，用因果机器学习生成可追溯的“拥堵病历”，让每一次治理决策有据可循。</p>
+        <span class="chapter">城市快速路运行管理</span>
+        <h1>常发性拥堵<br><em>致因诊断系统</em></h1>
+        <p>融合交通流、气象、事件和道路基础数据，对城市快速路拥堵进行诊断、溯源与治理效果评估。</p>
         <div class="intro-metrics">
-          <article><strong>24</strong><span>重点诊断路段</span></article>
-          <article><strong>8.6 min</strong><span>平均溯源耗时</span></article>
-          <article><strong>91.4%</strong><span>致因解释稳定度</span></article>
+          <article><strong>24</strong><span>接入路段</span></article>
+          <article><strong>18</strong><span>今日诊断</span></article>
+          <article><strong>7</strong><span>当前拥堵路段</span></article>
         </div>
       </section>
       <section class="auth-card">
@@ -33,31 +32,31 @@
           <button id="register-tab" type="button">申请注册</button>
         </div>
         <form id="login-form" class="auth-form">
-          <div class="form-heading"><span>CONTROL CENTER</span><h2>进入诊断工作台</h2></div>
+          <div class="form-heading"><span>用户登录</span><h2>进入系统</h2></div>
           <label>账号 / 工号<input id="login-user" value="analyst" autocomplete="username"></label>
           <label>访问密码<input id="login-pass" type="password" value="123456" autocomplete="current-password"></label>
           <div class="form-row"><label class="checkbox"><input type="checkbox" checked> 保持登录</label><button class="text-button" type="button">无法登录？</button></div>
-          <button class="submit-button" type="submit"><span>登录系统</span><b>↗</b></button>
+          <button class="submit-button" type="submit"><span>登录系统</span></button>
           <p class="demo-note">演示账号 analyst · 密码 123456</p>
         </form>
         <form id="register-form" class="auth-form" hidden>
-          <div class="form-heading"><span>ACCESS APPLICATION</span><h2>申请平台账号</h2></div>
+          <div class="form-heading"><span>账号申请</span><h2>填写注册信息</h2></div>
           <div class="form-grid"><label>姓名<input required placeholder="请输入姓名"></label><label>所属部门<input required placeholder="例如：交通运行处"></label></div>
           <label>工作邮箱<input required type="email" placeholder="name@organization.cn"></label>
           <label>设置密码<input required type="password" minlength="6" placeholder="至少 6 位字符"></label>
           <label class="checkbox agreement"><input type="checkbox" required checked> 我已阅读数据使用和保密规范</label>
-          <button class="submit-button" type="submit"><span>提交申请</span><b>↗</b></button>
+          <button class="submit-button" type="submit"><span>提交申请</span></button>
         </form>
       </section>
     </main>
-    <footer class="auth-footer"><span>CAUSAL INFERENCE FOR BETTER MOBILITY</span><span>© 2026 城市交通智能诊断实验室</span></footer>
+    <footer class="auth-footer"><span>城市交通运行分析平台</span><span>© 2026 城市交通运行中心</span></footer>
   </section>
 
   <div class="workspace" id="workspace" hidden>
     <header class="workspace-head">
-      <a class="workspace-brand" href="#overview"><span>路因</span><div><strong>城市快速路拥堵致因诊断系统</strong><small>CAUSAL CONGESTION DIAGNOSIS</small></div></a>
-      <div class="head-center"><i></i><span>模型服务在线</span><b>24 条路段接入</b></div>
-      <div class="head-actions"><button type="button" aria-label="搜索">⌕</button><button type="button" class="notice" aria-label="通知">◌<i></i></button><span class="avatar">研</span><div><strong>运行分析员</strong><small>市交通运行中心</small></div><button id="logout" class="logout" type="button">退出</button></div>
+      <a class="workspace-brand" href="#overview"><span>交通</span><div><strong>城市快速路常发性拥堵致因诊断系统</strong><small>城市交通运行分析平台</small></div></a>
+      <div class="head-center"><i></i><span>服务正常</span><b>24 条路段接入</b></div>
+      <div class="head-actions"><button type="button" class="notice" aria-label="通知">消息<i></i></button><span class="avatar">研</span><div><strong>运行分析员</strong><small>市交通运行中心</small></div><button id="logout" class="logout" type="button">退出</button></div>
     </header>
     <nav class="route-nav" aria-label="系统功能导航">
       <button data-route="overview" class="active"><span>01</span>诊断工作台</button>
@@ -69,7 +68,7 @@
     </nav>
     <main class="page-shell">
       <header class="page-head">
-        <div><p id="page-kicker">OVERVIEW / 实时运行</p><h1 id="page-title">诊断工作台</h1></div>
+        <div><p id="page-kicker">实时运行概况</p><h1 id="page-title">诊断工作台</h1></div>
         <div class="page-tools"><span id="clock"></span><button type="button">导出简报</button><button class="accent" type="button">＋ 新建诊断</button></div>
       </header>
       <div id="page-content" class="page-content" aria-live="polite"></div>

@@ -11,7 +11,7 @@ const overview=()=>`${metricStrip([
 <section class="dashboard-grid">
   <div class="stack">
     <article class="panel dark">
-      <header class="panel-head"><div><h2>实时拥堵致因解剖</h2><p>环城东路高架 · 北向南 · K12+400—K16+800</p></div><span>LIVE CAUSAL GRAPH</span></header>
+      <header class="panel-head"><div><h2>实时拥堵致因分析</h2><p>环城东路高架 · 北向南 · K12+400—K16+800</p></div><span>当前路段</span></header>
       <div class="route-line"><span>新港立交</span><div class="road"><i></i></div><span>科创大道</span></div>
       <div class="causal-canvas">
         <div class="cause-node source n1"><em>0.74</em><b>流量突增</b><small>较基线 +18.6%</small></div>
@@ -25,7 +25,7 @@ const overview=()=>`${metricStrip([
     </article>
   </div>
   <article class="panel case-card">
-    <div class="case-no"><div><span class="eyebrow">CONGESTION RECORD</span><strong>拥堵病历 #20261028-07</strong></div><span class="severity">较重</span></div>
+    <div class="case-no"><div><span class="eyebrow">拥堵记录</span><strong>拥堵病历 #20261028-07</strong></div><span class="severity">较重</span></div>
     <div class="case-meta"><div><span>首次发现</span><b>07:36</b></div><div><span>持续时长</span><b>42 min</b></div><div><span>最低速度</span><b>18 km/h</b></div><div><span>诊断置信度</span><b>91.4%</b></div></div>
     <header class="panel-head"><div><h3>核心致因贡献</h3><p>基于双重机器学习估计</p></div></header>
     <div class="cause-rank">${rank('需求流量突增',74)}${rank('入口交织冲突',61)}${rank('降雨减速效应',48)}${rank('下游瓶颈回溢',35)}</div>
@@ -33,7 +33,7 @@ const overview=()=>`${metricStrip([
   </article>
 </section>
 <section class="lower-grid">
-  <article class="panel"><header class="panel-head"><div><h3>全网诊断队列</h3><p>按风险与影响范围排序</p></div><span>18 CASES TODAY</span></header>
+  <article class="panel"><header class="panel-head"><div><h3>全网诊断队列</h3><p>按风险与影响范围排序</p></div><span>今日 18 例</span></header>
     <table class="diagnosis-table"><thead><tr><th>状态</th><th>路段</th><th>主要致因</th><th>拥堵指数</th><th>置信度</th><th>进展</th></tr></thead><tbody>${tableRows([
       ['<i class="level high"></i>较重','环城东路高架 北向南','需求突增 / 交织冲突','1.86','91.4%','<span class="status-pill">已完成</span>'],
       ['<i class="level high"></i>较重','机场快速路 西向东','事故占道 / 排队回溢','1.72','88.7%','<span class="status-pill">已完成</span>'],
@@ -57,10 +57,10 @@ const records=()=>`<div class="filter-bar"><input placeholder="搜索路段、�
     <button class="record-item"><span>#20261027-18 · 18:07</span><strong>南环快速路 西向东</strong><small>施工缩道 / 晚高峰需求</small></button>
   </div>
   <div class="stack">
-    <article class="panel case-card"><div class="case-no"><div><span class="eyebrow">SELECTED RECORD</span><strong>环城东路高架拥堵病历</strong></div><span class="severity">较重</span></div>
+    <article class="panel case-card"><div class="case-no"><div><span class="eyebrow">当前病历</span><strong>环城东路高架拥堵病历</strong></div><span class="severity">较重</span></div>
       <div class="record-summary"><div class="mini-stat"><span>拥堵指数峰值</span><b>2.12</b></div><div class="mini-stat"><span>影响车辆估计</span><b>1,486</b></div><div class="mini-stat"><span>延误总量</span><b>326 h</b></div><div class="mini-stat"><span>直接经济损失</span><b>¥ 8.4万</b></div></div>
     </article>
-    <article class="panel"><header class="panel-head"><div><h3>病程时间线</h3><p>从异常出现到交通恢复的完整链路</p></div><span>42 MINUTES</span></header><div class="timeline">
+    <article class="panel"><header class="panel-head"><div><h3>病程时间线</h3><p>从异常出现到交通恢复的完整链路</p></div><span>持续 42 分钟</span></header><div class="timeline">
       <article><time>07:24</time><b>需求异常抬升</b><p>上游断面流量连续 3 个周期高于历史基线 15%。</p></article>
       <article><time>07:31</time><b>入口交织冲突放大</b><p>汇入区换道率上升至 22.8%，速度方差增大。</p></article>
       <article><time>07:36</time><b>拥堵被系统确认</b><p>连续 5 分钟速度低于阈值，触发自动诊断。</p></article>
@@ -92,7 +92,7 @@ const sources=()=>`<section class="source-grid">
   <article class="source-card" data-code="04"><span class="source-icon">R</span><h3>道路基础</h3><p>车道、坡度、曲率、匝道和交通组织等静态道路属性。</p><div class="source-health"><span>12 类图层</span><b>100% 可用</b></div></article>
 </section>
 <section class="quality-grid">
-  <article class="panel"><header class="panel-head"><div><h3>数据质量热力图</h3><p>过去 12 个时间窗口的完整率</p></div><span>5 MIN / CELL</span></header><div class="heatmap">
+  <article class="panel"><header class="panel-head"><div><h3>数据质量热力图</h3><p>过去 12 个时间窗口的完整率</p></div><span>每格 5 分钟</span></header><div class="heatmap">
     <span class="label"></span>${Array.from({length:12},(_,i)=>`<span class="label">${String(i+1).padStart(2,'0')}</span>`).join('')}
     ${['断面流量','平均速度','气象数据','事件数据'].map((n,row)=>`<span class="label">${n}</span>${Array.from({length:12},(_,i)=>`<span class="q${((i+row*2)%9===0)?4:((i+row)%4)+1}"></span>`).join('')}`).join('')}
   </div></article>
@@ -101,7 +101,7 @@ const sources=()=>`<section class="source-grid">
 
 const strategy=()=>`${metricStrip([['待评估治理方案','12 项','3 项高优先',''],['预计平均提速','21.6%','↑ 3.2%',''],['投入产出比','1 : 4.8','优秀',''],['建议采纳率','78.3%','本月 +6.4%','']])}
 <section class="strategy-layout">
-  <article class="panel"><header class="panel-head"><div><h3>智能治理建议</h3><p>针对当前致因组合生成，按综合收益排序</p></div><span>4 RECOMMENDATIONS</span></header><div class="strategy-list">
+  <article class="panel"><header class="panel-head"><div><h3>治理建议</h3><p>依据当前致因组合整理，按综合收益排序</p></div><span>4 项建议</span></header><div class="strategy-list">
     <div class="strategy-card"><span class="priority">A1</span><div><h3>入口匝道分级调节</h3><p>07:20—08:40 将目标汇入率降低 12%，按主线饱和度动态放行。</p></div><div class="impact"><b>+21.6%</b><small>预计通行效率</small></div></div>
     <div class="strategy-card"><span class="priority">A2</span><div><h3>上游可变限速协同</h3><p>K10—K12 区间设置 70 km/h，引导车流稳定进入瓶颈区域。</p></div><div class="impact"><b>−16.2%</b><small>速度离散度</small></div></div>
     <div class="strategy-card"><span class="priority">B1</span><div><h3>交织区提前诱导</h3><p>在出口前 1.5 km 发布分车道指引，降低末端强制换道。</p></div><div class="impact"><b>−12.8%</b><small>交织冲突</small></div></div>
@@ -112,19 +112,19 @@ const strategy=()=>`${metricStrip([['待评估治理方案','12 项','3 项高�
 
 const evaluation=()=>`${metricStrip([['已复盘方案','38 项','本月 7 项',''],['平均拥堵降幅','18.4%','↑ 2.7%',''],['平均延误减少','1,260 h','累计',''],['因果预测误差','6.8%','−1.3%','']])}
 <section class="evaluation-grid">
-  <article class="panel"><header class="panel-head"><div><h3>治理前后关键指标</h3><p>环城东路匝道调节 · 实施 14 天</p></div><span>VERIFIED EFFECT</span></header><div class="before-after"><div class="period"><small>治理前 · 基线</small><strong>22 km/h</strong><em>早高峰平均速度</em></div><span class="arrow">→</span><div class="period"><small>治理后 · 当前</small><strong>31 km/h</strong><em>提升 40.9%</em></div></div><div class="before-after" style="margin-top:12px"><div class="period"><small>治理前 · 基线</small><strong>46 min</strong><em>拥堵持续时长</em></div><span class="arrow">→</span><div class="period"><small>治理后 · 当前</small><strong>33 min</strong><em>减少 28.3%</em></div></div></article>
-  <article class="panel"><header class="panel-head"><div><h3>效果趋势与反事实基线</h3><p>控制同期天气、需求和事件影响</p></div></header><div class="trend"><svg viewBox="0 0 600 220" preserveAspectRatio="none"><polyline fill="none" stroke="#7257d9" stroke-width="3" points="0,160 55,145 110,152 165,124 220,115 275,127 330,100 385,92 440,85 495,72 550,68 600,53"/><polyline fill="none" stroke="#f05b3f" stroke-width="3" stroke-dasharray="8 7" points="0,160 55,151 110,147 165,142 220,136 275,132 330,128 385,122 440,118 495,114 550,108 600,105"/></svg></div><div class="legend"><span><i class="violet"></i>实际运行速度</span><span><i></i>未治理反事实基线</span></div></article>
-  <article class="panel"><header class="panel-head"><div><h3>方案复盘清单</h3></div><span>RECENT</span></header><table class="diagnosis-table"><thead><tr><th>方案</th><th>实施路段</th><th>拥堵降幅</th><th>预测误差</th><th>结论</th></tr></thead><tbody>${tableRows([['匝道分级调节','环城东路','28.3%','5.7%','<span class="status-pill">建议推广</span>'],['可变限速协同','机场快速路','16.9%','7.2%','<span class="status-pill">有效</span>'],['车道用途调整','滨江大道','8.4%','11.6%','<span class="status-pill wait">继续观察</span>']])}</tbody></table></article>
+  <article class="panel"><header class="panel-head"><div><h3>治理前后关键指标</h3><p>环城东路匝道调节 · 实施 14 天</p></div><span>效果已核验</span></header><div class="before-after"><div class="period"><small>治理前 · 基线</small><strong>22 km/h</strong><em>早高峰平均速度</em></div><span class="arrow">→</span><div class="period"><small>治理后 · 当前</small><strong>31 km/h</strong><em>提升 40.9%</em></div></div><div class="before-after" style="margin-top:12px"><div class="period"><small>治理前 · 基线</small><strong>46 min</strong><em>拥堵持续时长</em></div><span class="arrow">→</span><div class="period"><small>治理后 · 当前</small><strong>33 min</strong><em>减少 28.3%</em></div></div></article>
+  <article class="panel"><header class="panel-head"><div><h3>效果趋势与反事实基线</h3><p>控制同期天气、需求和事件影响</p></div></header><div class="trend"><svg viewBox="0 0 600 220" preserveAspectRatio="none"><polyline fill="none" stroke="#1768a6" stroke-width="3" points="0,160 55,145 110,152 165,124 220,115 275,127 330,100 385,92 440,85 495,72 550,68 600,53"/><polyline fill="none" stroke="#b5453c" stroke-width="3" stroke-dasharray="8 7" points="0,160 55,151 110,147 165,142 220,136 275,132 330,128 385,122 440,118 495,114 550,108 600,105"/></svg></div><div class="legend"><span><i class="violet"></i>实际运行速度</span><span><i></i>未治理反事实基线</span></div></article>
+  <article class="panel"><header class="panel-head"><div><h3>方案复盘清单</h3></div><span>近期记录</span></header><table class="diagnosis-table"><thead><tr><th>方案</th><th>实施路段</th><th>拥堵降幅</th><th>预测误差</th><th>结论</th></tr></thead><tbody>${tableRows([['匝道分级调节','环城东路','28.3%','5.7%','<span class="status-pill">建议推广</span>'],['可变限速协同','机场快速路','16.9%','7.2%','<span class="status-pill">有效</span>'],['车道用途调整','滨江大道','8.4%','11.6%','<span class="status-pill wait">继续观察</span>']])}</tbody></table></article>
   <article class="panel"><header class="panel-head"><div><h3>治理经验沉淀</h3><p>模型从复盘结果中持续学习</p></div></header><div class="scenario-list"><div class="scenario"><div><strong>高需求 + 高交织场景</strong><small>匝道调节优于单一可变限速</small></div><b>0.91</b></div><div class="scenario"><div><strong>降雨 + 低能见度场景</strong><small>组合诱导需提前 15 分钟启动</small></div><b>0.86</b></div><div class="scenario"><div><strong>事故引发排队回溢</strong><small>下游出口疏导优先级更高</small></div><b>0.82</b></div></div></article>
 </section>`;
 
 const routes={
-  overview:{title:'诊断工作台',kicker:'OVERVIEW / 实时运行',render:overview},
-  records:{title:'拥堵病历库',kicker:'CASE RECORDS / 诊断归档',render:records},
-  causal:{title:'因果溯源',kicker:'CAUSAL INFERENCE / 致因推断',render:causal},
-  sources:{title:'多源数据',kicker:'DATA FUSION / 数据治理',render:sources},
-  strategy:{title:'治理策略',kicker:'TREATMENT / 决策支持',render:strategy},
-  evaluation:{title:'评估复盘',kicker:'EVALUATION / 效果学习',render:evaluation}
+  overview:{title:'诊断工作台',kicker:'实时运行概况',render:overview},
+  records:{title:'拥堵病历库',kicker:'诊断记录与归档',render:records},
+  causal:{title:'因果溯源',kicker:'致因关系与效应分析',render:causal},
+  sources:{title:'多源数据',kicker:'数据接入与质量管理',render:sources},
+  strategy:{title:'治理策略',kicker:'治理方案与决策支持',render:strategy},
+  evaluation:{title:'评估复盘',kicker:'治理效果与经验沉淀',render:evaluation}
 };
 
 function showAuth(mode='login'){
