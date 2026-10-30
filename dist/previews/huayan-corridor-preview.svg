@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="680" viewBox="0 0 1400 680" role="img" aria-labelledby="title desc">
+  <title id="title">华岩立交及内环快速路态势图预览</title>
+  <desc id="desc">按华岩立交地图的道路方向与周边地物绘制的系统态势图草图。</desc>
+  <defs>
+    <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M36 0H0V36" fill="none" stroke="#dcebed" stroke-width="1"/></pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#315a6733"/></filter>
+  </defs>
+  <rect width="1400" height="680" fill="#eff8f8"/>
+  <rect width="1400" height="680" fill="url(#grid)"/>
+  <g fill="none" stroke="#c4d7db" stroke-width="3">
+    <path d="M20 100C205 75 322 143 474 109S715 105 934 137s288-22 448-75"/>
+    <path d="M0 545C187 500 334 564 503 520s243-88 415-45 264 35 482-30"/>
+    <path d="M231-10C202 112 274 175 251 288s55 164 8 408"/>
+    <path d="M1014-10C955 124 1051 232 1005 366s36 168-5 324"/>
+    <path d="M482 186C535 217 565 245 634 275M686 330C783 360 841 406 925 461"/>
+  </g>
+  <path d="M133 240C222 191 320 212 389 267s42 124 125 141 125-43 119-127-25-123-104-168-98-102-58-169" fill="none" stroke="#d1efc9" stroke-width="90" stroke-linecap="round" opacity=".95"/>
+  <path d="M292 440c42-36 81-18 96 11s-7 72 30 83 60-29 80-62 55-41 75-18" fill="none" stroke="#77d8ec" stroke-width="17" stroke-linecap="round"/>
+  <path d="M1130 145c88-42 167-31 246 24v332c-86-16-169 13-242 66-53-102-48-313-4-422z" fill="#f1e7f5" opacity=".88"/>
+  <path d="M679-30C631 87 653 159 696 233s-7 123-36 190 6 129 47 194 10 113-38 123" fill="none" stroke="#fff" stroke-width="38" stroke-linecap="round"/>
+  <path d="M679-30C631 87 653 159 696 233s-7 123-36 190 6 129 47 194 10 113-38 123" fill="none" stroke="#587f8d" stroke-width="23" stroke-linecap="round"/>
+  <path d="M679-30C631 87 653 159 696 233s-7 123-36 190 6 129 47 194 10 113-38 123" fill="none" stroke="#9fc1cb" stroke-width="5" stroke-linecap="round" stroke-dasharray="4 11"/>
+  <path d="M665 161c16 30 31 56 31 93" fill="none" stroke="#1bac82" stroke-width="8" stroke-linecap="round"/>
+  <path d="M666 371c-12 35-5 70 15 104" fill="none" stroke="#1bac82" stroke-width="8" stroke-linecap="round"/>
+  <path d="M697 251c7 18 6 37-2 57" fill="none" stroke="#ef6064" stroke-width="7" stroke-linecap="round" stroke-dasharray="10 8"/>
+  <g font-family="Microsoft YaHei, Arial, sans-serif" fill="#6c878d">
+    <text x="150" y="90" font-size="15">华岩寺站</text><text x="407" y="335" font-size="17" fill="#5c9d63">华岩寺</text>
+    <text x="280" y="525" font-size="18" fill="#4e9f7d">华岩旅游风景区</text><text x="748" y="151" font-size="17">华岩苑小区</text>
+    <text x="821" y="113" font-size="14">华园路</text><text x="786" y="418" font-size="16" fill="#4b9ab4">重庆实验外国语学校</text>
+    <text x="987" y="306" font-size="16">华龙大道</text><text x="1195" y="271" font-size="16" fill="#9a60bf">新世界建材市场</text>
+    <text x="722" y="88" font-size="15" transform="rotate(76 722 88)" fill="#7c6032">内环快速路</text><text x="579" y="227" font-size="14">华岩寺路</text>
+  </g>
+  <g filter="url(#shadow)">
+    <circle cx="693" cy="219" r="16" fill="#fff" stroke="#1bac82" stroke-width="3"/><path d="M688 219h10m-5-5v10" stroke="#1bac82" stroke-width="2"/>
+    <rect x="716" y="200" width="152" height="47" rx="5" fill="#fff"/><text x="729" y="220" font-family="Microsoft YaHei,Arial" font-size="14" fill="#2b5868">UAV-03</text><text x="729" y="239" font-family="Microsoft YaHei,Arial" font-size="12" fill="#168060">华岩立交巡检点</text>
+    <circle cx="696" cy="284" r="16" fill="#ef6064"/><text x="690" y="290" font-family="Arial" font-size="18" fill="#fff">!</text><text x="719" y="280" font-family="Microsoft YaHei,Arial" font-size="13" fill="#274f60">高风险</text><text x="719" y="298" font-family="Microsoft YaHei,Arial" font-size="11" fill="#718a92">主线车流异常</text>
+  </g>
+  <g transform="translate(18 621)" filter="url(#shadow)"><rect width="300" height="40" rx="4" fill="#fff"/><text x="15" y="25" font-family="Microsoft YaHei,Arial" font-size="13" fill="#526f7a">━ 内环快速路　━ 开放车道　✦ 无人机　● 风险点</text></g>
+  <text x="1274" y="42" font-family="Arial" font-size="15" font-weight="700" fill="#5e7d85">N</text><path d="M1271 52l6 13-12 0z" fill="#5e7d85"/>
+</svg>

@@ -1,154 +1,26 @@
-const $=(selector,root=document)=>root.querySelector(selector);
-const $$=(selector,root=document)=>[...root.querySelectorAll(selector)];
-
-const metricStrip=(items)=>`<section class="metric-strip">${items.map((item,i)=>`<article class="metric"><div><small>${item[0]}</small><strong>${item[1]}</strong></div><em class="${item[3]||''}">${item[2]}</em></article>`).join('')}</section>`;
-const rank=(name,value)=>`<div class="rank-row"><span>${name}</span><div class="bar"><i style="width:${value}%"></i></div><b>${value}%</b></div>`;
-const tableRows=(rows)=>rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');
-
-const overview=()=>`${metricStrip([
-  ['当前拥堵路段','7 条','较昨日 -2',''],['平均拥堵指数','1.86','↑ 8.4%','down'],['自动诊断完成','18 例','完成率 94%',''],['建议预计收益','23.7%','平均提速','']
-])}
-<section class="dashboard-grid">
-  <div class="stack">
-    <article class="panel dark">
-      <header class="panel-head"><div><h2>实时拥堵致因分析</h2><p>环城东路高架 · 北向南 · K12+400—K16+800</p></div><span>当前路段</span></header>
-      <div class="route-line"><span>新港立交</span><div class="road"><i></i></div><span>科创大道</span></div>
-      <div class="causal-canvas">
-        <div class="cause-node source n1"><em>0.74</em><b>流量突增</b><small>较基线 +18.6%</small></div>
-        <div class="cause-node source n2"><em>0.48</em><b>降雨增强</b><small>能见度 1.8 km</small></div>
-        <div class="cause-node source n3"><em>0.61</em><b>入口汇入</b><small>饱和度 0.92</small></div>
-        <div class="cause-node factor n4"><em>37%</em><b>跟驰间距增大</b><small>中介效应</small></div>
-        <div class="cause-node factor n5"><em>29%</em><b>交织冲突上升</b><small>中介效应</small></div>
-        <div class="cause-node result n6"><em>1.86</em><b>常发性拥堵</b><small>持续 42 分钟</small></div>
-        ${['c1','c2','c3','c4','c5','c6','c7'].map(c=>`<i class="connector ${c}"></i>`).join('')}
-      </div>
-    </article>
-  </div>
-  <article class="panel case-card">
-    <div class="case-no"><div><span class="eyebrow">拥堵记录</span><strong>拥堵病历 #20261028-07</strong></div><span class="severity">较重</span></div>
-    <div class="case-meta"><div><span>首次发现</span><b>07:36</b></div><div><span>持续时长</span><b>42 min</b></div><div><span>最低速度</span><b>18 km/h</b></div><div><span>诊断置信度</span><b>91.4%</b></div></div>
-    <header class="panel-head"><div><h3>核心致因贡献</h3><p>基于双重机器学习估计</p></div></header>
-    <div class="cause-rank">${rank('需求流量突增',74)}${rank('入口交织冲突',61)}${rank('降雨减速效应',48)}${rank('下游瓶颈回溢',35)}</div>
-    <div class="advice"><b>首选治理建议</b>入口匝道在 07:20—08:40 实施分级调节，目标汇入率降低 12%；配合上游可变限速 70 km/h，预计通行效率提升 21.6%。</div>
-  </article>
-</section>
-<section class="lower-grid">
-  <article class="panel"><header class="panel-head"><div><h3>全网诊断队列</h3><p>按风险与影响范围排序</p></div><span>今日 18 例</span></header>
-    <table class="diagnosis-table"><thead><tr><th>状态</th><th>路段</th><th>主要致因</th><th>拥堵指数</th><th>置信度</th><th>进展</th></tr></thead><tbody>${tableRows([
-      ['<i class="level high"></i>较重','环城东路高架 北向南','需求突增 / 交织冲突','1.86','91.4%','<span class="status-pill">已完成</span>'],
-      ['<i class="level high"></i>较重','机场快速路 西向东','事故占道 / 排队回溢','1.72','88.7%','<span class="status-pill">已完成</span>'],
-      ['<i class="level medium"></i>中度','滨江大道高架 东向西','降雨 / 车速离散','1.45','84.2%','<span class="status-pill wait">推断中</span>'],
-      ['<i class="level low"></i>轻度','南环快速路 西向东','施工缩道','1.21','79.6%','<span class="status-pill wait">待复核</span>']
-    ])}</tbody></table>
-  </article>
-  <article class="panel"><header class="panel-head"><div><h3>反事实推演</h3><p>如果移除单一致因，会发生什么？</p></div></header><div class="scenario-list">
-    <div class="scenario"><div><strong>若无入口需求突增</strong><small>平均速度 18 → 33 km/h</small></div><b>+83%</b></div>
-    <div class="scenario"><div><strong>若无降雨影响</strong><small>拥堵时长 42 → 34 min</small></div><b>−19%</b></div>
-    <div class="scenario"><div><strong>仅采用固定限速</strong><small>预计二次排队增长</small></div><b class="bad">+7%</b></div>
-  </div></article>
-</section>`;
-
-const records=()=>`<div class="filter-bar"><input placeholder="搜索路段、病历编号或致因关键词"><select><option>全部拥堵等级</option><option>较重</option><option>中度</option></select><select><option>近 7 天</option><option>近 30 天</option></select><button type="button">检索病历</button></div>
-<section class="record-layout">
-  <div class="record-list">
-    <button class="record-item active"><span>#20261028-07 · 07:36</span><strong>环城东路高架 北向南</strong><small>需求流量突增 / 交织冲突</small></button>
-    <button class="record-item"><span>#20261028-06 · 07:18</span><strong>机场快速路 西向东</strong><small>事故占道 / 排队回溢</small></button>
-    <button class="record-item"><span>#20261028-05 · 06:54</span><strong>滨江大道高架 东向西</strong><small>降雨 / 车速离散</small></button>
-    <button class="record-item"><span>#20261027-18 · 18:07</span><strong>南环快速路 西向东</strong><small>施工缩道 / 晚高峰需求</small></button>
-  </div>
-  <div class="stack">
-    <article class="panel case-card"><div class="case-no"><div><span class="eyebrow">当前病历</span><strong>环城东路高架拥堵病历</strong></div><span class="severity">较重</span></div>
-      <div class="record-summary"><div class="mini-stat"><span>拥堵指数峰值</span><b>2.12</b></div><div class="mini-stat"><span>影响车辆估计</span><b>1,486</b></div><div class="mini-stat"><span>延误总量</span><b>326 h</b></div><div class="mini-stat"><span>直接经济损失</span><b>¥ 8.4万</b></div></div>
-    </article>
-    <article class="panel"><header class="panel-head"><div><h3>病程时间线</h3><p>从异常出现到交通恢复的完整链路</p></div><span>持续 42 分钟</span></header><div class="timeline">
-      <article><time>07:24</time><b>需求异常抬升</b><p>上游断面流量连续 3 个周期高于历史基线 15%。</p></article>
-      <article><time>07:31</time><b>入口交织冲突放大</b><p>汇入区换道率上升至 22.8%，速度方差增大。</p></article>
-      <article><time>07:36</time><b>拥堵被系统确认</b><p>连续 5 分钟速度低于阈值，触发自动诊断。</p></article>
-      <article><time>07:44</time><b>致因推断完成</b><p>双重机器学习识别需求突增为首要直接致因。</p></article>
-      <article><time>08:18</time><b>运行状态恢复</b><p>平均速度回升至 48 km/h，病历自动归档。</p></article>
-    </div></article>
-  </div>
-</section>`;
-
-const causal=()=>`${metricStrip([['当前分析样本','18,420 条','覆盖 21 天',''],['平均处理效应 ATE','+0.37','拥堵指数','down'],['模型解释稳定度','91.4%','↑ 2.1%',''],['未观测混杂敏感度','0.18','风险较低','']])}
-<section class="dag-layout">
-  <article class="dag-map">
-    <div class="dag-node input d1"><b>交通需求</b><small>总流量 / 车型结构</small></div><div class="dag-node input d2"><b>天气状态</b><small>降雨 / 能见度</small></div><div class="dag-node input d3"><b>突发事件</b><small>事故 / 施工</small></div>
-    <div class="dag-node mediator d4"><b>车速离散</b><small>中介变量 M₁</small></div><div class="dag-node mediator d5"><b>交织冲突</b><small>中介变量 M₂</small></div><div class="dag-node target d6"><b>拥堵指数</b><small>结果变量 Y</small></div>
-    ${['de1','de2','de3','de4','de5','de6'].map(x=>`<i class="dag-edge ${x}"></i>`).join('')}
-  </article>
-  <div class="stack">
-    <article class="panel"><header class="panel-head"><div><h3>直接效应排序</h3><p>对拥堵指数的标准化因果效应</p></div></header><div class="effect-list">
-      ${[['需求流量突增',74],['入口汇入率',61],['降雨强度',48],['事故占道',44],['重车比例',28]].map(([n,v])=>`<div class="effect"><div class="effect-head"><span>${n}</span><b>+0.${v}</b></div><div class="effect-line"><i style="width:${v}%"></i></div></div>`).join('')}
-    </div><div class="confidence"><strong>91.4%</strong><small>Bootstrap 置信区间覆盖稳定度</small></div></article>
-    <article class="panel"><header class="panel-head"><div><h3>模型设定</h3></div><span>DML / CATE</span></header><table class="diagnosis-table"><tbody>${tableRows([['处理变量','入口汇入率'],['结果变量','拥堵指数'],['学习器','LightGBM × 2'],['交叉拟合','5 folds'],['样本窗口','21 days']])}</tbody></table></article>
-  </div>
-</section>`;
-
-const sources=()=>`<section class="source-grid">
-  <article class="source-card" data-code="01"><span class="source-icon">F</span><h3>交通流检测</h3><p>微波、视频与浮动车融合，30 秒粒度获取流量、速度和占有率。</p><div class="source-health"><span>24 个数据源</span><b>99.7% 可用</b></div></article>
-  <article class="source-card" data-code="02"><span class="source-icon">W</span><h3>气象环境</h3><p>降雨、能见度、路面湿度和风速等道路气象观测。</p><div class="source-health"><span>8 个数据源</span><b>98.9% 可用</b></div></article>
-  <article class="source-card" data-code="03"><span class="source-icon">E</span><h3>交通事件</h3><p>事故、施工、管制与大型活动事件的时空结构化记录。</p><div class="source-health"><span>5 个数据源</span><b>97.6% 可用</b></div></article>
-  <article class="source-card" data-code="04"><span class="source-icon">R</span><h3>道路基础</h3><p>车道、坡度、曲率、匝道和交通组织等静态道路属性。</p><div class="source-health"><span>12 类图层</span><b>100% 可用</b></div></article>
-</section>
-<section class="quality-grid">
-  <article class="panel"><header class="panel-head"><div><h3>数据质量热力图</h3><p>过去 12 个时间窗口的完整率</p></div><span>每格 5 分钟</span></header><div class="heatmap">
-    <span class="label"></span>${Array.from({length:12},(_,i)=>`<span class="label">${String(i+1).padStart(2,'0')}</span>`).join('')}
-    ${['断面流量','平均速度','气象数据','事件数据'].map((n,row)=>`<span class="label">${n}</span>${Array.from({length:12},(_,i)=>`<span class="q${((i+row*2)%9===0)?4:((i+row)%4)+1}"></span>`).join('')}`).join('')}
-  </div></article>
-  <article class="panel"><header class="panel-head"><div><h3>接入运行日志</h3><p>最近数据管道事件</p></div></header><div class="timeline"><article><time>10:28:30</time><b>交通流批次入库完成</b><p>记录 18,420 条，异常值 12 条已标记。</p></article><article><time>10:25:04</time><b>气象数据延迟恢复</b><p>滨江站延迟 36 秒，已自动补齐。</p></article><article><time>10:20:00</time><b>道路基础图层校验</b><p>版本 2026.10.3 一致性检查通过。</p></article></div></article>
-</section>`;
-
-const strategy=()=>`${metricStrip([['待评估治理方案','12 项','3 项高优先',''],['预计平均提速','21.6%','↑ 3.2%',''],['投入产出比','1 : 4.8','优秀',''],['建议采纳率','78.3%','本月 +6.4%','']])}
-<section class="strategy-layout">
-  <article class="panel"><header class="panel-head"><div><h3>治理建议</h3><p>依据当前致因组合整理，按综合收益排序</p></div><span>4 项建议</span></header><div class="strategy-list">
-    <div class="strategy-card"><span class="priority">A1</span><div><h3>入口匝道分级调节</h3><p>07:20—08:40 将目标汇入率降低 12%，按主线饱和度动态放行。</p></div><div class="impact"><b>+21.6%</b><small>预计通行效率</small></div></div>
-    <div class="strategy-card"><span class="priority">A2</span><div><h3>上游可变限速协同</h3><p>K10—K12 区间设置 70 km/h，引导车流稳定进入瓶颈区域。</p></div><div class="impact"><b>−16.2%</b><small>速度离散度</small></div></div>
-    <div class="strategy-card"><span class="priority">B1</span><div><h3>交织区提前诱导</h3><p>在出口前 1.5 km 发布分车道指引，降低末端强制换道。</p></div><div class="impact"><b>−12.8%</b><small>交织冲突</small></div></div>
-    <div class="strategy-card"><span class="priority">B2</span><div><h3>雨天专项控制预案</h3><p>降雨强度超过 5 mm/h 时自动启用差异化限速与提示。</p></div><div class="impact"><b>−8 min</b><small>预计拥堵时长</small></div></div>
-  </div></article>
-  <article class="panel"><header class="panel-head"><div><h3>收益—成本矩阵</h3><p>圆形大小表示覆盖车辆规模</p></div></header><div class="matrix"><span class="bubble b1">匝道<br>调节</span><span class="bubble b2">可变<br>限速</span><span class="bubble b3">提前<br>诱导</span><span class="bubble b4">设施<br>改造</span></div></article>
-</section>`;
-
-const evaluation=()=>`${metricStrip([['已复盘方案','38 项','本月 7 项',''],['平均拥堵降幅','18.4%','↑ 2.7%',''],['平均延误减少','1,260 h','累计',''],['因果预测误差','6.8%','−1.3%','']])}
-<section class="evaluation-grid">
-  <article class="panel"><header class="panel-head"><div><h3>治理前后关键指标</h3><p>环城东路匝道调节 · 实施 14 天</p></div><span>效果已核验</span></header><div class="before-after"><div class="period"><small>治理前 · 基线</small><strong>22 km/h</strong><em>早高峰平均速度</em></div><span class="arrow">→</span><div class="period"><small>治理后 · 当前</small><strong>31 km/h</strong><em>提升 40.9%</em></div></div><div class="before-after" style="margin-top:12px"><div class="period"><small>治理前 · 基线</small><strong>46 min</strong><em>拥堵持续时长</em></div><span class="arrow">→</span><div class="period"><small>治理后 · 当前</small><strong>33 min</strong><em>减少 28.3%</em></div></div></article>
-  <article class="panel"><header class="panel-head"><div><h3>效果趋势与反事实基线</h3><p>控制同期天气、需求和事件影响</p></div></header><div class="trend"><svg viewBox="0 0 600 220" preserveAspectRatio="none"><polyline fill="none" stroke="#1f66e5" stroke-width="3" points="0,160 55,145 110,152 165,124 220,115 275,127 330,100 385,92 440,85 495,72 550,68 600,53"/><polyline fill="none" stroke="#e15159" stroke-width="3" stroke-dasharray="8 7" points="0,160 55,151 110,147 165,142 220,136 275,132 330,128 385,122 440,118 495,114 550,108 600,105"/></svg></div><div class="legend"><span><i class="violet"></i>实际运行速度</span><span><i></i>未治理反事实基线</span></div></article>
-  <article class="panel"><header class="panel-head"><div><h3>方案复盘清单</h3></div><span>近期记录</span></header><table class="diagnosis-table"><thead><tr><th>方案</th><th>实施路段</th><th>拥堵降幅</th><th>预测误差</th><th>结论</th></tr></thead><tbody>${tableRows([['匝道分级调节','环城东路','28.3%','5.7%','<span class="status-pill">建议推广</span>'],['可变限速协同','机场快速路','16.9%','7.2%','<span class="status-pill">有效</span>'],['车道用途调整','滨江大道','8.4%','11.6%','<span class="status-pill wait">继续观察</span>']])}</tbody></table></article>
-  <article class="panel"><header class="panel-head"><div><h3>治理经验沉淀</h3><p>模型从复盘结果中持续学习</p></div></header><div class="scenario-list"><div class="scenario"><div><strong>高需求 + 高交织场景</strong><small>匝道调节优于单一可变限速</small></div><b>0.91</b></div><div class="scenario"><div><strong>降雨 + 低能见度场景</strong><small>组合诱导需提前 15 分钟启动</small></div><b>0.86</b></div><div class="scenario"><div><strong>事故引发排队回溢</strong><small>下游出口疏导优先级更高</small></div><b>0.82</b></div></div></article>
-</section>`;
-
-const routes={
-  overview:{title:'运行概览',kicker:'实时运行概况',render:overview},
-  records:{title:'拥堵病历库',kicker:'诊断记录与归档',render:records},
-  causal:{title:'因果溯源',kicker:'致因关系与效应分析',render:causal},
-  sources:{title:'多源数据',kicker:'数据接入与质量管理',render:sources},
-  strategy:{title:'治理策略',kicker:'治理方案与决策支持',render:strategy},
-  evaluation:{title:'评估复盘',kicker:'治理效果与经验沉淀',render:evaluation}
+"use strict";
+const app=document.querySelector("#app"),auth=document.querySelector("#auth-screen"),content=document.querySelector("#page-content"),title=document.querySelector("#page-title"),nav=[...document.querySelectorAll("[data-page]")],toast=document.querySelector("#toast");
+const kpis=`<div class="grid kpi-grid"><article class="kpi"><i>⌁</i><div><span>今日巡检里程</span><b>126.8 <small>km</small></b><em>↑ 12.5% 较昨日</em></div></article><article class="kpi"><i>✦</i><div><span>在线无人机</span><b>3 <small>/ 5 架</small></b><em>全部通信正常</em></div></article><article class="kpi"><i>⇄</i><div><span>开放应急车道</span><b>3 <small>处</small></b><em>平均开放 38 分钟</em></div></article><article class="kpi"><i>⚑</i><div><span>今日识别风险</span><b>14 <small>起</small></b><em>3 起待处置</em></div></article><article class="kpi"><i>◎</i><div><span>巡检覆盖率</span><b>96.3 <small>%</small></b><em>↑ 2.1% 较昨日</em></div></article></div>`;
+const map=`<div class="map"><span class="map-label ml1">青州收费站</span><span class="map-label ml2">青州南收费站</span><span class="map-label ml3">临朐收费站</span><svg viewBox="0 0 1000 350" preserveAspectRatio="none"><path class="minor" d="M-10 75C150 60 260 125 400 105S610 50 755 120S915 210 1010 185M120 355C235 255 360 330 470 235S720 245 850 315M510-10C500 105 570 130 540 230S500 320 530 370"/><path class="road-bg" d="M-30 240C80 190 160 140 285 172S432 288 550 252S710 75 840 122S923 230 1020 212"/><path class="road" d="M-30 240C80 190 160 140 285 172S432 288 550 252S710 75 840 122S923 230 1020 212"/><path class="open-road" d="M238 161C310 178 350 235 415 255M710 84C758 85 795 107 839 122"/><path class="risk-road" d="M858 130C898 151 920 218 960 218"/></svg><div class="marker one"><b>✦</b><span>UAV-03</span></div><div class="marker two"><b>✦</b><span>UAV-07</span></div><div class="danger high"><b>!</b><span><strong>高风险</strong><small>临朐收费站北侧</small></span></div><div class="danger mid"><b>!</b><span><strong>中风险</strong><small>青州南收费站南侧</small></span></div><div class="map-legend"><span>━ 高速主线</span><span>━ 开放车道</span><span>✦ 无人机</span><span>● 风险点</span></div></div>`;
+const alerts=`<div class="alert-list"><article><b class="level">高</b><div><strong>应急车道异常占用</strong><p>G25 K132+400 · 货车持续占用应急车道</p></div><span class="tag">待处置</span></article><article><b class="level mid">中</b><div><strong>车流密度快速上升</strong><p>G25 K121+750 · 开放段入口</p></div><span class="tag">已关注</span></article><article><b class="level low">低</b><div><strong>疑似非机动车进入</strong><p>G25 K118+200 · 右侧路肩区域</p></div><span class="tag">待核验</span></article></div>`;
+const droneRows=`<table class="table"><thead><tr><th>设备编号</th><th>状态</th><th>巡检路段</th><th>飞行时长</th><th>剩余电量</th><th>任务进度</th></tr></thead><tbody><tr><td>✦ UAV-03</td><td class="status">● 巡检中</td><td>G25 K118—K132</td><td>01:12:36</td><td><span class="progress"><i style="width:78%"></i></span>78%</td><td>68%</td></tr><tr><td>✦ UAV-07</td><td class="status blue">● 返航中</td><td>G25 K086—K098</td><td>00:48:21</td><td><span class="progress"><i style="width:42%"></i></span>42%</td><td>91%</td></tr><tr><td>✦ UAV-11</td><td class="status">● 待命</td><td>青州服务区</td><td>--</td><td><span class="progress"><i style="width:96%"></i></span>96%</td><td>待分配</td></tr></tbody></table>`;
+const lineChart=`<div class="chart"><svg viewBox="0 0 700 170" preserveAspectRatio="none"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#1a91ca" stop-opacity=".3"/><stop offset="1" stop-color="#1a91ca" stop-opacity="0"/></linearGradient></defs><path class="chart-grid" d="M0 15H700M0 70H700M0 125H700"/><path fill="url(#area)" d="M0 140L78 122L155 132L233 75L311 100L389 58L466 86L544 33L622 71L700 45V170H0Z"/><path class="chart-line" d="M0 140L78 122L155 132L233 75L311 100L389 58L466 86L544 33L622 71L700 45"/></svg><p class="axis"><span>04:00</span><span>06:00</span><span>08:00</span><span>10:00</span></p></div>`;
+const pages={
+overview:{title:"综合概览",html:()=>`${kpis}<div class="grid cols-2" style="margin-top:16px"><section class="panel"><div class="panel-head"><div><small>CORRIDOR SITUATION</small><h2>G25 重点路段运行态势</h2></div><button data-go="corridor">进入路段态势 →</button></div>${map}</section><section class="panel"><div class="panel-head"><div><small>ACTIVE ALERTS</small><h2>实时风险预警</h2></div><button data-go="alerts">全部预警 →</button></div>${alerts}<div class="summary-list" style="margin-top:14px"><div class="summary-item"><i>✓</i><div><b>系统运行稳定</b><span>7 项服务全部在线</span></div><em>99.8%</em></div><div class="summary-item"><i>⌁</i><div><b>当前车流平稳</b><span>平均速度 86 km/h</span></div><em>正常</em></div></div></section></div>`},
+corridor:{title:"路段态势",html:()=>`<div class="grid cols-2"><section class="panel"><div class="panel-head"><div><small>REAL-TIME MAP</small><h2>青州至临朐段实时态势</h2></div><button>风险图层 ▾</button></div>${map}</section><section class="panel"><div class="panel-head"><div><small>SECTION SUMMARY</small><h2>路段运行摘要</h2></div></div><div class="summary-list"><div class="summary-item"><i>⌁</i><div><b>青州收费站—青州南收费站</b><span>平均速度 92 km/h</span></div><em>畅通</em></div><div class="summary-item"><i>!</i><div><b>青州南收费站—临朐收费站</b><span>发现 2 起风险事件</span></div><em>关注</em></div><div class="summary-item"><i>⇄</i><div><b>临朐收费站—临朐南收费站</b><span>应急车道动态开放</span></div><em>开放</em></div></div></section></div><section class="panel" style="margin-top:16px"><div class="panel-head"><div><small>SECTION MONITORING</small><h2>监测断面数据</h2></div></div><table class="table"><tr><th>路段</th><th>车流量</th><th>平均速度</th><th>应急车道占用</th><th>风险等级</th><th>最后更新</th></tr><tr><td>青州收费站—青州南收费站</td><td>986 辆/h</td><td>92 km/h</td><td>6.2%</td><td class="status">低</td><td>刚刚</td></tr><tr><td>青州南收费站—临朐收费站</td><td>1,286 辆/h</td><td>76 km/h</td><td>18.6%</td><td class="status amber">中</td><td>刚刚</td></tr><tr><td>临朐收费站—临朐南收费站</td><td>1,104 辆/h</td><td>84 km/h</td><td>12.3%</td><td class="status">低</td><td>1 分钟前</td></tr></table></section>`},
+drones:{title:"无人机巡检",html:()=>`<div class="grid drone-cards"><section class="panel drone-card"><div class="drone-title"><b>UAV-03</b><span>● 巡检中</span></div><p>当前任务：早高峰重点路段巡检</p><div class="drone-metrics"><div><span>电量</span><b>78%</b></div><div><span>高度</span><b>118 m</b></div><div><span>图传</span><b>8.2 Mbps</b></div></div></section><section class="panel drone-card"><div class="drone-title"><b>UAV-07</b><span>● 返航中</span></div><p>返航目标：青州服务区停机坪</p><div class="drone-metrics"><div><span>电量</span><b>42%</b></div><div><span>距离</span><b>2.8 km</b></div><div><span>预计</span><b>6 min</b></div></div></section><section class="panel drone-card"><div class="drone-title"><b>UAV-11</b><span>● 待命</span></div><p>设备自检完成，可立即执行任务</p><div class="drone-metrics"><div><span>电量</span><b>96%</b></div><div><span>健康度</span><b>98%</b></div><div><span>位置</span><b>02 坪</b></div></div></section></div><section class="panel" style="margin-top:16px"><div class="panel-head"><div><small>MISSION LIST</small><h2>巡检任务与设备状态</h2></div><button>＋ 新建巡检任务</button></div>${droneRows}</section>`},
+lanes:{title:"应急车道",html:()=>`<div class="grid cols-3"><section class="panel lane-card"><span>开放中</span><h3>G25 K118—K125</h3><p>青州南收费站至弥河大桥</p><b class="big">82% <small>开放利用率</small></b></section><section class="panel lane-card"><span>开放中</span><h3>G25 K130—K134</h3><p>弥河大桥至临朐北互通</p><b class="big">59% <small>开放利用率</small></b></section><section class="panel lane-card"><span>评估中</span><h3>G25 K146—K150</h3><p>临朐互通至临朐服务区</p><b class="big">31% <small>建议开放指数</small></b></section></div><div class="grid cols-equal" style="margin-top:16px"><section class="panel"><div class="panel-head"><div><small>OPEN STRATEGY</small><h2>动态开放策略</h2></div></div><div class="rule-list"><div class="rule"><i>01</i><div><b>车流密度触发</b><span>主线密度超过 38 辆/km 时进入开放评估</span></div></div><div class="rule"><i>02</i><div><b>风险分值约束</b><span>综合风险低于 45 分且路肩无障碍物</span></div></div><div class="rule"><i>03</i><div><b>无人机复核</b><span>开放前由巡检无人机完成全段复核</span></div></div></div></section><section class="panel"><div class="panel-head"><div><small>LANE FLOW</small><h2>开放后车流变化</h2></div></div>${lineChart}</section></div>`},
+alerts:{title:"风险预警",html:()=>`<div class="grid kpi-grid"><article class="kpi"><i>⚑</i><div><span>今日预警</span><b>14 <small>起</small></b><em>较昨日 -2 起</em></div></article><article class="kpi"><i>!</i><div><span>高风险</span><b>3 <small>起</small></b><em>2 起待处置</em></div></article><article class="kpi"><i>✓</i><div><span>已闭环</span><b>11 <small>起</small></b><em>闭环率 78.6%</em></div></article><article class="kpi"><i>◷</i><div><span>平均响应</span><b>2.6 <small>min</small></b><em>满足处置要求</em></div></article></div><section class="panel" style="margin-top:16px"><div class="panel-head"><div><small>WARNING CENTER</small><h2>风险事件中心</h2></div><button>全部等级 ▾</button></div><table class="table"><tr><th>等级</th><th>事件类型</th><th>位置</th><th>识别来源</th><th>风险分值</th><th>发生时间</th><th>处置状态</th></tr><tr><td><b class="level">高</b></td><td>应急车道异常占用</td><td>K132+400</td><td>UAV-03</td><td>86</td><td>09:38</td><td><span class="tag">待处置</span></td></tr><tr><td><b class="level mid">中</b></td><td>车流密度快速上升</td><td>K121+750</td><td>融合模型</td><td>67</td><td>09:32</td><td><span class="tag">已关注</span></td></tr><tr><td><b class="level low">低</b></td><td>疑似非机动车进入</td><td>K118+200</td><td>UAV-07</td><td>42</td><td>09:21</td><td><span class="tag">待核验</span></td></tr><tr><td><b class="level mid">中</b></td><td>车辆低速停车</td><td>K127+680</td><td>路侧视频</td><td>61</td><td>08:56</td><td><span class="tag">已闭环</span></td></tr></table></section>`},
+analysis:{title:"数据分析",html:()=>`<div class="grid cols-2"><section class="panel"><div class="panel-head"><div><small>RISK TREND</small><h2>24 小时风险趋势</h2></div><button>今日 ▾</button></div>${lineChart}</section><section class="panel"><div class="panel-head"><div><small>RISK DISTRIBUTION</small><h2>风险等级分布</h2></div></div><div class="donut-wrap"><div class="donut"><span><b>14</b><small>今日识别</small></span></div><div class="legend-list"><p><i></i>高风险 <b>21%</b></p><p><i></i>中风险 <b>36%</b></p><p><i></i>低风险 <b>43%</b></p></div></div></section></div><div class="grid cols-equal" style="margin-top:16px"><section class="panel"><div class="panel-head"><div><small>EVENT CATEGORY</small><h2>风险事件类型排行</h2></div></div><div class="bar-list"><p>车道异常占用<i><b style="width:82%"></b></i><strong>32</strong></p><p>车辆异常停车<i><b style="width:67%"></b></i><strong>26</strong></p><p>车流密度上升<i><b style="width:51%"></b></i><strong>20</strong></p><p>行人非机动车<i><b style="width:28%"></b></i><strong>11</strong></p></div></section><section class="panel"><div class="panel-head"><div><small>MODEL QUALITY</small><h2>模型识别质量</h2></div></div><div class="summary-list"><div class="summary-item"><i>◎</i><div><b>风险识别准确率</b><span>近 7 日平均水平</span></div><em>94.8%</em></div><div class="summary-item"><i>⌁</i><div><b>平均识别延迟</b><span>视频流端到端耗时</span></div><em>1.2 s</em></div><div class="summary-item"><i>✓</i><div><b>误报率</b><span>人工复核后的误报占比</span></div><em>3.6%</em></div></div></section></div>`},
+system:{title:"系统状态",html:()=>`<div class="grid cols-3"><section class="panel system-card"><i>⌬</i><div><b>风险识别模型</b><span>v2.4.1 · GPU 负载 42%</span></div><em>● 运行稳定</em></section><section class="panel system-card"><i>◌</i><div><b>视频识别服务</b><span>8 路视频流 · 延迟 68 ms</span></div><em>● 已连接</em></section><section class="panel system-card"><i>☁</i><div><b>数据上报通道</b><span>最近同步：刚刚</span></div><em>● 正常</em></section></div><div class="grid cols-equal" style="margin-top:16px"><section class="panel"><div class="panel-head"><div><small>SYSTEM SETTINGS</small><h2>运行配置</h2></div></div><div class="settings"><div class="setting"><div><b>实时风险推送</b><span>高风险事件即时通知</span></div><i class="toggle"><i></i></i></div><div class="setting"><div><b>无人机自动调度</b><span>按风险位置推荐任务</span></div><i class="toggle"><i></i></i></div><div class="setting"><div><b>视频流智能分析</b><span>对全部接入视频启用</span></div><i class="toggle"><i></i></i></div><div class="setting"><div><b>数据自动归档</b><span>每日 02:00 执行</span></div><i class="toggle"><i></i></i></div></div></section><section class="panel"><div class="panel-head"><div><small>SERVICE LOG</small><h2>最近运行日志</h2></div></div><table class="table"><tr><td>09:42:18</td><td>模型服务完成健康检查</td><td class="status">正常</td></tr><tr><td>09:41:56</td><td>UAV-03 视频流重新连接</td><td class="status">成功</td></tr><tr><td>09:40:12</td><td>路段状态数据完成同步</td><td class="status">成功</td></tr><tr><td>09:38:07</td><td>生成高风险事件预警</td><td class="status amber">关注</td></tr></table></section></div>`}
 };
-
-function showAuth(mode='login'){
-  $('#workspace').hidden=true; $('#auth-view').hidden=false;
-  const login=mode==='login'; $('#login-form').hidden=!login; $('#register-form').hidden=login;
-  $('#login-tab').classList.toggle('active',login); $('#register-tab').classList.toggle('active',!login);
-}
-function enterWorkspace(){
-  $('#auth-view').hidden=true; $('#workspace').hidden=false;
-  if(!location.hash) location.hash='overview'; else renderRoute();
-}
-function renderRoute(){
-  const key=location.hash.replace('#','') || 'overview'; const route=routes[key]||routes.overview;
-  $('#page-title').textContent=route.title; $('#page-kicker').textContent=route.kicker; $('#page-content').innerHTML=route.render();
-  $$('.route-nav button').forEach(b=>b.classList.toggle('active',b.dataset.route===key));
-  window.scrollTo({top:0,behavior:'instant'});
-}
-function tick(){const now=new Date(); const date=now.toLocaleDateString('zh-CN',{year:'numeric',month:'2-digit',day:'2-digit',weekday:'short'}); const time=now.toLocaleTimeString('zh-CN',{hour12:false}); $('#clock').textContent=`${date} · ${time}`; $('#update-time').textContent=time;}
-
-$('#login-tab').addEventListener('click',()=>showAuth('login'));
-$('#register-tab').addEventListener('click',()=>showAuth('register'));
-$('#login-form').addEventListener('submit',e=>{e.preventDefault();enterWorkspace()});
-$('#register-form').addEventListener('submit',e=>{e.preventDefault();alert('注册申请已提交（演示），请使用演示账号进入系统。');showAuth('login')});
-$('#logout').addEventListener('click',()=>showAuth('login'));
-$$('.route-nav button').forEach(button=>button.addEventListener('click',()=>{location.hash=button.dataset.route}));
-window.addEventListener('hashchange',renderRoute);
-tick(); setInterval(tick,1000); showAuth('login');
+function showToast(message){toast.textContent=message;toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),1800)}
+function render(page,updateHash=true){const data=pages[page]||pages.overview;title.textContent=data.title;content.innerHTML=data.html();nav.forEach(button=>button.classList.toggle("active",button.dataset.page===page));if(updateHash)history.replaceState(null,"",`#/${page}`);content.querySelectorAll("[data-go]").forEach(button=>button.onclick=()=>render(button.dataset.go));window.scrollTo(0,0)}
+function enter(){auth.hidden=true;auth.style.display="none";app.hidden=false;const route=location.hash.replace("#/","");render(pages[route]?route:"overview")}
+nav.forEach(button=>button.onclick=()=>render(button.dataset.page));
+document.querySelector("#show-register").onclick=()=>{document.querySelector(".login-box").hidden=true;document.querySelector(".register-box").hidden=false};
+document.querySelector("#show-login").onclick=()=>{document.querySelector(".register-box").hidden=true;document.querySelector(".login-box").hidden=false};
+document.querySelector("#login-submit").onclick=enter;
+document.querySelector("#register-submit").onclick=()=>{showToast("注册申请已提交，请等待管理员审核");setTimeout(()=>document.querySelector("#show-login").click(),900)};
+document.querySelector("#logout").onclick=()=>{app.hidden=true;auth.hidden=false;auth.style.display="";history.replaceState(null,"","#/login")};
+function tick(){document.querySelector("#now").textContent=new Intl.DateTimeFormat("zh-CN",{year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).format(new Date()).replaceAll("/","-")};tick();setInterval(tick,1000);

@@ -1,0 +1,2 @@
+/* 仅替换综合概览与路段态势共用的 .map 组件。 */
+.map{background:#eff8f8 url("./previews/huayan-corridor-preview.svg") center/cover no-repeat!important}.map:before,.map:after{display:none!important}
